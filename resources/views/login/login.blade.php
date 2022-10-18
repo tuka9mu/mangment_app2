@@ -12,29 +12,33 @@
             </div>
             <form class="p-12 md:p-20" action="{{ route('login.post') }}" method="POST">
                 @csrf
-                <div class="flex items-center text-lg mb-6 md:mb-8">
+                <div class="flex items-center text-lg md:mt-2">
                     <svg class="absolute mr-3" width="24" viewBox="0 0 24 24" fill="gray">
                         <path
                             d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
                     </svg>
                     <input type="text" name="email"
                         class="bg-white pr-12 py-2 md:py-4 focus:outline-none w-full rounded-lg text-gray-400" />
-                    @if ($errors->has('email'))
-                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                    @endif
                 </div>
-                <div class="flex items-center text-lg mb-6 md:mb-8">
+                @error('email')
+                <span class="text-[#f87171] text-sm" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+                <div class="flex items-center text-lg md:mt-4">
                     <svg class="absolute mr-3" viewBox="0 0 24 24" width="24" fill="gray">
                         <path
                             d="m18.75 9h-.75v-3c0-3.309-2.691-6-6-6s-6 2.691-6 6v3h-.75c-1.24 0-2.25 1.009-2.25 2.25v10.5c0 1.241 1.01 2.25 2.25 2.25h13.5c1.24 0 2.25-1.009 2.25-2.25v-10.5c0-1.241-1.01-2.25-2.25-2.25zm-10.75-3c0-2.206 1.794-4 4-4s4 1.794 4 4v3h-8zm5 10.722v2.278c0 .552-.447 1-1 1s-1-.448-1-1v-2.278c-.595-.347-1-.985-1-1.722 0-1.103.897-2 2-2s2 .897 2 2c0 .737-.405 1.375-1 1.722z" />
                     </svg>
                     <input type="password" name="password"
                         class="bg-white pr-12 py-2 md:py-4 focus:outline-none w-full rounded-lg text-gray-400" />
-                    @if ($errors->has('password'))
-                        <span class="text-danger">{{ $errors->first('password') }}</span>
-                    @endif
                 </div>
-                <div class="felx items-center w-1/2 mx-auto">
+                @error('password')
+                <span class="text-[#f87171] text-sm" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+                <div class="felx items-center w-1/2 mx-auto md:mt-8">
                     <button
                         class="rounded-lg bg-gradient-to-b from-sky-600 to-cyan-400 hover:bg-gradient-to-r from-sky-700 to-cyan-500 font-medium p-2 md:p-4 text-white uppercase w-full">تسجيل
                         الدخول</button>

@@ -13,6 +13,7 @@ class Employee extends Model
         'empl_id',
         'dept_code',
         'name',
+        'section',
         'degree' ,
         'address' ,
         'commdate',

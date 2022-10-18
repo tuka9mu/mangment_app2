@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +21,7 @@ class UsersTableDataSeeder extends Seeder
             'name' => 'tuka',
             'type' => '0',
             'email' => 'tuka@a.com',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('1234')
         ]);
     }
 }

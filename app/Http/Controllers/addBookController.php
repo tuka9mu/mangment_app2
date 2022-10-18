@@ -45,7 +45,7 @@ public function test()
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -67,7 +67,7 @@ public function test()
             'employee'=>$request->input('employee'),
             'book' => $request->input('book'),
       ]);
-      
+
 
 
       return redirect()->back()->with('status','تم اضافة الكتاب بنجاح');

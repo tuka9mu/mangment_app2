@@ -18,6 +18,6 @@ class ExportSingle implements FromCollection
  }
     public function collection()
     {
-        return Employee::where('id',$this->id)->get();
+        return Employee::where('id',$this->id)->all();
     }
 }

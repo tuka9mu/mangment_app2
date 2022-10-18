@@ -18,7 +18,7 @@ return new class extends Migration
       Schema::create('degrees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('intervel');
+            $table->integer('intervel')->nullable();
             $table->timestamps();
 
         });
@@ -30,6 +30,12 @@ return new class extends Migration
             $table->timestamps();
 
         });
+        Schema::create('sections', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+
+        });
 
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
@@ -37,6 +43,7 @@ return new class extends Migration
             $table->integer('dept_code')->nullable();;
             $table->unsignedBigInteger('degree')->nullable();
             $table->unsignedBigInteger('address')->nullable();
+            $table->unsignedBigInteger('section')->nullable();
             $table->text('name');
             $table->date('commdate')->format("YYYY-MM-DD")->nullable();
             $table->date('adddate')->format("YYYY-MM-DD")->nullable();
@@ -51,6 +58,7 @@ return new class extends Migration
 
             $table->foreign('degree')->references('id')->on('degrees');
             $table->foreign('address')->references('id')->on('addresses');
+            $table->foreign('section')->references('id')->on('sections');
         });
 
         Schema::create('books',function(Blueprint $table){
@@ -72,6 +80,31 @@ return new class extends Migration
             $table->foreign('book')->references('id')->on('books');
       });
 
+
+      Schema::create('countries',function(Blueprint $table){
+            $table->id();
+            $table->integer('ctry_code');
+            $table->string('ctry_b_desc');
+            $table->string('ctry_s_desc')->nullable();
+            $table->string('crty_iso')->nullable();
+            $table->timestamps();
+      });
+
+      Schema::create('empls_efads',function(Blueprint $table){
+            $table->increments('id');
+            $table->unsignedBigInteger('employee')->nullable();
+            $table->unsignedBigInteger('country')->nullable();
+            $table->string('emp_prov')->nullable();;
+            $table->date('emp_date_from');
+            $table->date('emp_date_to');
+            $table->timestamps();
+            $table->foreign('employee')->references('empl_id')->on('employees');
+            $table->foreign('country')->references('id')->on('countries');
+      });
+
+
+
+
     }
 
     /**
@@ -81,7 +114,7 @@ return new class extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('books');
+        Schema::dropIfExists('books');
         Schema::dropIfExists('employees');
         Schema::dropIfExists('degrees');
         Schema::dropIfExists('addresses');

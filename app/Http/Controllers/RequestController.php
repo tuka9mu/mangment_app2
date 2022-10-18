@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Imports\Date;
 use App\Models\Degree;
 use App\Models\Address;
+use App\Models\Section;
 use App\Models\EmplBook;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -33,21 +34,19 @@ class RequestController extends Controller
       {
             $GetBook = EmplBook::get();
             $GetDegrees = Degree::get();
+            $GetSections = Section::get();
             $GetAddresses = Address::get();
-            $GetList = DB::table('employees')
-                  // ->leftJoin('degrees', 'degrees.id', '=', 'employees.degree')
-                  // ->leftJoin('addresses', 'addresses.id', '=', 'employees.address')
-                  // ->select('employees.*')
-                  ->orderBy('adddate')->cursorPaginate(6);
+
+            $GetList = Employee::paginate(3);
 
             $blogs = DB::select("CALL calculate()");
-            
-
+ 
             // dd($GetList);
             return view('pages.table', [
                   'employees' => $GetList,
                   'degrees' => $GetDegrees,
                   'addresses' => $GetAddresses,
+                  'sections' => $GetSections,
                   'books' => $GetBook,
                   'blog' => $blogs
             ]);
@@ -55,21 +54,32 @@ class RequestController extends Controller
       // UPDATE employees set commdate=DATE_ADD(commdate, INTERVAL -2 MONTH) where empl_id=1234;
       public function search(Request $request)
       {
-
             $GetDegrees = Degree::get();
+            $GetSections = Section::get();
             $GetAddresses = Address::get();
-            $Get = DB::table('employees')
+            $search = $request->get('search');
+            $blogs = DB::table('employees')
             ->leftJoin('degrees', 'degrees.id', '=', 'employees.degree')
             ->leftJoin('addresses', 'addresses.id', '=', 'employees.address')
-            ->select('employees.*', 'employees.name', 'degrees.name as _degree', 'addresses.name as _address')
-            ->where('employees.name', 'like',  $request->name . '%')
-            ->paginate(6);
+            ->leftJoin('sections', 'sections.id', '=', 'employees.section')
+            ->select('employees.*', 'employees.name', 'degrees.name as dgree', 'addresses.name as adress','sections.name as sction')
+            ->where('employees.name','like','%'.$search.'%')->get();
+            return view('pages.table', [
+                  'blog'=>$blogs,
+                  'degrees' => $GetDegrees,
+                  'addresses' => $GetAddresses,
+                  'sections' => $GetSections
+            ]);
 
-        return view('pages.table',[
-            'employees'=>$Get,
-            'degrees' => $GetDegrees,
-            'addresses' => $GetAddresses
-        ]);
+            
+            
+
+      //       $project = Employee::query();
+      //       if (request('search')) {
+      //           $project->where('name', 'Like', '%' . request('search') . '%');
+      //       }
+      //     dd($project);
+
 
       }
 
@@ -81,6 +91,7 @@ class RequestController extends Controller
                   'empl_id'=>'required',
                   'dept_code'=>'nullable',
                   'name' => 'required',
+                  'section'=>'required',
                   'degree' => 'nullable',
                   'address' => 'nullable',
                   'commdate'=>'Date',
@@ -89,14 +100,15 @@ class RequestController extends Controller
                   'locality'=>'nullable',
                   'ally'=>'nullable',
                   'house'=>'nullable',
-                  'phone'=>'number|max:11|nullable',
-                  'email'=>'email|nullable'
+                  'phone'=>'max:11|nullable',
+                  'email'=>'nullable'
             ]);
 
             $data = Employee::create([
                   'empl_id'=>$request->input('empl_id'),
                   'dept_code'=>$request->input('dept_code'),
                   'name' => $request->input('name'),
+                  'section' => $request->input('section'),
                   'degree' => $request->input('degree'),
                   'address' => $request->input('address'),
                   'commdate' => $request->input('commdate'),
@@ -116,11 +128,13 @@ class RequestController extends Controller
       public function edit($id)
     {
       $GetBook= Book::get();
+      $GetSection= Section::get();
         $GetDegrees = Degree::get();
         $GetAddresses = Address::get();
         $employee = Employee::find($id);
         return view('pages.addEmplyee',[
             'employee'=>$employee,
+            'sections' => $GetSection,
             'degrees' => $GetDegrees,
             'addresses' => $GetAddresses,
             'books'=>$GetBook
@@ -134,6 +148,7 @@ class RequestController extends Controller
             'empl_id'=>'required',
             'dept_code'=>'nullable',
             'name' => 'required',
+            'section' => 'required',
             'degree' => 'nullable',
             'address' => 'nullable',
             'commdate'=>'Date',
@@ -151,6 +166,7 @@ class RequestController extends Controller
       $employee = Employee::findOrFail($request->id);
       $employee->empl_id = $request->empl_id;
       $employee -> name = $request-> name;
+      $employee -> section = $request-> section;
       $employee -> degree = $request-> degree;
       $employee -> address = $request-> address;
       $employee -> commdate = $request-> commdate;

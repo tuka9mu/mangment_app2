@@ -15,7 +15,7 @@
         <!-- This button is used to open the dialog -->
         <div class="flex">
             <form method="GET" action="{{ route('request.search') }}">
-                <input autocomplete type="search" name="name"
+                <input autocomplete type="search" name="search"
                     class="bg-white pr-12 py-2 focus:outline-none rounded-lg text-gray-400">
                 <button class="bg-sky-500 text-white p-2 rounded mr-2" type="submit">ابحث</button>
             </form>
@@ -47,6 +47,7 @@
 
                     <th class="p-3"><span>الرمز الوظيفي</span></th>
                     <th><span>اسم الموظف</span></th>
+                    <th><span>القسم</span></th>
                     <th><span>الدرجة الوظيفية</span></th>
                     <th><span>العنوان الوظيفي</span></th>
                     <th><span>تاريخ تغيير العنوان</span></th>
@@ -62,6 +63,7 @@
 
                         <td class="p-3"><span class="font-semibold">{{ $employee->empl_id }} </span></td>
                         <td class="p-3"><span>{{ $employee->name }} </span></td>
+                        <td class="p-3"><span>{{ $employee->sction }} </span></td>
                         <td><span>{{ $employee->dgree }} </span></td>
                         <td><span>{{ $employee->adress }} </span></td>
                         <td><span>{{ $employee->adddate }}</span></td>
@@ -179,7 +181,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $employees->links() }}
+       
     </div>
 
 
@@ -201,14 +203,15 @@
 
                 <div class="grid gap-6 mb-6 lg:grid-cols-3">
                     <div>
-                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-100 ">رمز
-                            الموظف</label>
+                        
+                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-100 "> <span class="text-[#f87171]">*</span> رمز
+                          الموظف</label>
                         <input type="text" id="first_name" name="empl_id" autocomplete="off" placeholder="123406"
                             class="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring"
                             required="">
                     </div>
                     <div>
-                        <label for="first_name" class="block text-sm mb-2 font-medium text-gray-100">الاسم
+                        <label for="first_name" class="block text-sm mb-2 font-medium text-gray-100"><span class="text-[#f87171]">*</span> الاسم 
                             الاول</label>
                         <input type="text" id="first_name" name="name" autocomplete="off" placeholder="احمد عبد"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring"
@@ -219,6 +222,20 @@
                         placeholder="16"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full focus:outline-none focus:ring"
                         required="">
+
+                        <div>
+                              <label for="countries"
+                                  class="block mb-2 text-sm font-medium text-gray-100 dark:text-gray-400">القسم
+                                  </label>
+                              <select name="section" id="section" value="{{ old('section') }}"
+                                  class="hover:border-sky-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
+                                  
+                                  @foreach ($sections as $val)
+                                      <option value={{ $val->id }}>{{ $val->name }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+
 
                     <div>
                         <label for="countries"
@@ -238,12 +255,13 @@
                             الوظيفي</label>
                         <select name="address" id="address" value="{{ old('address') }}"
                             class="hover:border-sky-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
-
                             @foreach ($addresses as $val)
                                 <option value={{ $val->id }}>{{ $val->name }}</option>
                             @endforeach
                         </select>
                     </div>
+
+                  
 
                     <div>
                         <label for="last_name" class="block mb-2 text-sm font-medium text-gray-100">تاريخ المباشرة

@@ -54,13 +54,38 @@ class adminController extends Controller
             ->selectRaw('count(id) as all2')
             ->first();
 
+            $GetRequestAllDegree = DB::table('degrees')
+            ->selectRaw('count(id) as all2')
+            ->first();
+    
+            $GetRequestAllAddress = DB::table('addresses')
+            ->selectRaw('count(id) as all2')
+            ->first();
+    
+            $GetRequestAllBook = DB::table('empls_books')
+            ->selectRaw('count(id) as all2')
+            ->first();
+    
+            $GetRequestAllEfads = DB::table('empls_efads')
+            ->selectRaw('count(id) as all2')
+            ->first();
+          
+    
             return view('pages.home', [
                 'data' => [
                       'count_all' => $GetRequestCountAll->all2,
+                      'all_degree' =>$GetRequestAllDegree->all2,
+                      'all_address' =>$GetRequestAllAddress->all2,
+                      'all_book' =>$GetRequestAllBook->all2,
+                      'all_efad' =>$GetRequestAllEfads->all2
                 ]]);
+
         }
 
-        return view("login.login");
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+            'password' => 'the password incorrect'
+        ]);
     }
 
     /**
@@ -97,15 +122,23 @@ class adminController extends Controller
      */
     public function dashboard()
     {
-        if (Auth::check()) {
-            return view('pages.home');
-        }
-
-        return redirect("login")->withSuccess('Opps! You do not have access');
-
-
-
         $GetRequestCountAll = DB::table('employees')
+        ->selectRaw('count(id) as all2')
+        ->first();
+
+        $GetRequestAllDegree = DB::table('degrees')
+        ->selectRaw('count(id) as all2')
+        ->first();
+
+        $GetRequestAllAddress = DB::table('addresses')
+        ->selectRaw('count(id) as all2')
+        ->first();
+
+        $GetRequestAllBook = DB::table('empls_books')
+        ->selectRaw('count(id) as all2')
+        ->first();
+
+        $GetRequestAllEfads = DB::table('empls_efads')
         ->selectRaw('count(id) as all2')
         ->first();
       
@@ -113,6 +146,10 @@ class adminController extends Controller
         return view('pages.home', [
             'data' => [
                   'count_all' => $GetRequestCountAll->all2,
+                  'all_degree' =>$GetRequestAllDegree->all2,
+                  'all_address' =>$GetRequestAllAddress->all2,
+                  'all_book' =>$GetRequestAllBook->all2,
+                  'all_efad' =>$GetRequestAllEfads->all2
             ]]);
 
     }
