@@ -118,5 +118,9 @@ return new class extends Migration
         Schema::dropIfExists('employees');
         Schema::dropIfExists('degrees');
         Schema::dropIfExists('addresses');
+        Schema::dropIfExists('empls_efads');
+        Schema::dropIfExists('countries');
+        Schema::dropIfExists('empls_books');
+        Schema::dropIfExists('sections');
     }
 };
