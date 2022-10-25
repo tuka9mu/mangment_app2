@@ -50,6 +50,7 @@
                     <th><span>القسم</span></th>
                     <th><span>الدرجة الوظيفية</span></th>
                     <th><span>العنوان الوظيفي</span></th>
+
                     <th><span>تاريخ تغيير العنوان</span></th>
                     <th><span>تاريخ الاستحقاق الجديد</span></th>
                     <th><span>الاجراء </span></th>
@@ -99,10 +100,9 @@
                                 </svg>
                             </a>
                             <a type="button" href="{{ route('exportbyid', $employee->id) }}" class="p-1">
-                                <svg class="h-5 w-5"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    enable-background="new 0 0 24 24" id="Layer_1" version="1.1" viewBox="0 0 24 24"
-                                    xml:space="preserve">
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 24 24"
+                                    id="Layer_1" version="1.1" viewBox="0 0 24 24" xml:space="preserve">
                                     <g>
                                         <rect fill="#FFFFFF" height="17" width="11.5" x="12" y="3.5" />
                                         <path
@@ -181,12 +181,12 @@
                 @endforeach
             </tbody>
         </table>
-       
+
     </div>
 
 
     <!--add employee-->
-    <!-- Default Modal -->
+
     <div class="bg-white"></div>
     <div id="medium-modal" tabindex="-1"
         class="lg:w-5/12 hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 rounded-md py-6 drop-shadow-lg bg-gray-700"
@@ -203,15 +203,16 @@
 
                 <div class="grid gap-6 mb-6 lg:grid-cols-3">
                     <div>
-                        
-                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-100 "> <span class="text-[#f87171]">*</span> رمز
-                          الموظف</label>
+                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-100 "> <span
+                                class="text-[#f87171]">*</span> رمز
+                            الموظف</label>
                         <input type="text" id="first_name" name="empl_id" autocomplete="off" placeholder="123406"
                             class="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring"
                             required="">
                     </div>
                     <div>
-                        <label for="first_name" class="block text-sm mb-2 font-medium text-gray-100"><span class="text-[#f87171]">*</span> الاسم 
+                        <label for="first_name" class="block text-sm mb-2 font-medium text-gray-100"><span
+                                class="text-[#f87171]">*</span> الاسم
                             الاول</label>
                         <input type="text" id="first_name" name="name" autocomplete="off" placeholder="احمد عبد"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring"
@@ -223,19 +224,18 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full focus:outline-none focus:ring"
                         required="">
 
-                        <div>
-                              <label for="countries"
-                                  class="block mb-2 text-sm font-medium text-gray-100 dark:text-gray-400">القسم
-                                  </label>
-                              <select name="section" id="section" value="{{ old('section') }}"
-                                  class="hover:border-sky-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
-                                  
-                                  @foreach ($sections as $val)
-                                      <option value={{ $val->id }}>{{ $val->name }}</option>
-                                  @endforeach
-                              </select>
-                          </div>
+                    <div>
+                        <label for="countries"
+                            class="block mb-2 text-sm font-medium text-gray-100 dark:text-gray-400">القسم
+                        </label>
+                        <select name="section" id="section" value="{{ old('section') }}"
+                            class="hover:border-sky-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
 
+                            @foreach ($sections as $val)
+                                <option value={{ $val->id }}>{{ $val->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div>
                         <label for="countries"
@@ -261,14 +261,13 @@
                         </select>
                     </div>
 
-                  
-
                     <div>
                         <label for="last_name" class="block mb-2 text-sm font-medium text-gray-100">تاريخ المباشرة
                         </label>
                         <input name="commdate" type="date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
+
                     <div>
                         <label for="last_name" class="block mb-2 text-sm font-medium text-gray-100">تاريخ تغيير
                             العنوان
@@ -276,8 +275,8 @@
                         <input name="adddate" type="date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
-
                 </div>
+
                 <hr class="border bg-sky-200 rounded my-1">
                 <h4 class="text-xl font-medium text-white">معلومات الموظف</h4>
                 <hr class="border bg-sky-200 rounded my-2">
@@ -340,15 +339,3 @@
         </div>
     </div>
 @endsection
-
-{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" charset="utf8"
-    src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-
-<script>
-    $(document).ready(function () {
-        $('#dataTable').DataTable();
-
-    });
-</script> --}}

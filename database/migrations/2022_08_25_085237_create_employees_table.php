@@ -47,7 +47,6 @@ return new class extends Migration
             $table->text('name');
             $table->date('commdate')->format("YYYY-MM-DD")->nullable();
             $table->date('adddate')->format("YYYY-MM-DD")->nullable();
-            $table->date('duedate')->format("YYYY-MM-DD")->nullable();
             $table->string('state')->nullable();
             $table->integer('locality')->nullable();
             $table->integer('ally')->nullable();
@@ -72,9 +71,9 @@ return new class extends Migration
 
       Schema::create('empls_books',function(Blueprint $table){
             $table->increments('id');
-            $table->date('date');
             $table->unsignedBigInteger('employee')->nullable();
             $table->unsignedBigInteger('book')->nullable();
+            $table->date('date');
             $table->timestamps();
             $table->foreign('employee')->references('empl_id')->on('employees');
             $table->foreign('book')->references('id')->on('books');

@@ -3,7 +3,11 @@
 @section('content')
     <!--edit employee-->
     <!-- Overlay element -->
-
+    <div class="w-1/2">
+      @if (session('status'))
+          <p class="bg-green-400 p-3 w-1/2 text-white font-semibold rounded-md mb-3">{{ session('status') }}</p>
+      @endif
+  </div>
     <div tabindex="-1"
         class=" lg:w-5/12  fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 rounded-md py-6 drop-shadow-lg bg-gray-700">
         <!-- Modal header -->
@@ -31,15 +35,9 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring"
                             required="">
                     </div>
-                    @error('name')
-                        <div class="alert alert-danger error" style="font-size: 14px; width:170px;">{{ $message }}
-                        </div>
-                    @enderror
-
                     <input type="hidden" name="dept_code" autocomplete="off" value="16" placeholder="16"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full focus:outline-none focus:ring"
                         required="">
-
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-100 dark:text-gray-400">الدرجة
                             الوظيفية</label>
@@ -68,17 +66,27 @@
 
                         </select>
                     </div>
+
                     <div>
-                        <label for="duedate" class="block mb-2 text-sm font-medium text-gray-100">تاريخ المباشرة
-                        </label>
-                        <input id="duedate" name="duedate" type="date" value="{{ $employee['duedate'] }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
+                        <label class="block mb-2 text-sm font-medium text-gray-100 dark:text-gray-400">القسم
+                            </label>
+                        <select name="section" data-value="{{ $employee ? $employee->section : old('section') }}"
+                            class="hover:border-sky-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
+
+                            @foreach ($sections as $val)
+                                <option value={{ $val->id }}>
+                                    {{ $val->name }}</option>
+                            @endforeach
+
+                        </select>
                     </div>
 
-                    <input id="commdate" name="commdate" type="hidden" value="{{ $employee['commdate'] }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
-
-
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-100">تاريخ المباشرة
+                        </label>
+                        <input id="commdate" name="commdate" type="date" value="{{ $employee['commdate'] }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
+                    </div>
                     <div>
                         <label for="last_name" class="block mb-2 text-sm font-medium text-gray-100">تاريخ تغيير
                             العنوان
@@ -86,52 +94,44 @@
                         <input id="adddate" name="adddate" type="date" value="{{ $employee['adddate'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
-
-                </div>
-
-                <div class="grid gap-6 mb-6 lg:grid-cols-4">
+                    
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-100">منطقة السكن
                         </label>
-                        <input name="state" type="text" value="{{ $employee->state }}"
+                        <input name="state" type="text"value="{{ $employee['state'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-100">محلة
                         </label>
-                        <input name="locality" type="text" value="{{ $employee->locality }}"
+                        <input name="locality" type="text" value="{{ $employee['locality'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-100">زقاق
                         </label>
-                        <input name="ally" type="text" value="{{ $employee->ally }}"
+                        <input name="ally" type="text" value="{{ $employee['ally'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-100">دار
                         </label>
-                        <input name="house" type="text" value="{{ $employee->house }}"
+                        <input name="house" type="text" value="{{ $employee['house'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
-
-                </div>
-                <div class="grid gap-6 mb-6 lg:grid-cols-2">
                     <div class="w-full">
                         <label class="block mb-2 text-sm font-medium text-gray-100">رقم الهاتف
                         </label>
-                        <input name="phone" type="text" value="{{ $employee->phone }}"
+                        <input name="phone" type="text" value="{{ $employee['phone'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
                     <div class="w-full">
                         <label class="block mb-2 text-sm font-medium text-gray-100">الايميل الرسمي
                         </label>
-                        <input name="email" type="text" value="{{ $employee->email }}"
+                        <input name="email" type="text" value="{{ $employee['email'] }}"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:border-sky-300 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
                     </div>
                 </div>
-
-
 
                 <div class="flex justify-end">
                     <!-- This button is used to open the dialog -->
@@ -146,59 +146,8 @@
                 </div>
 
             </form>
-
-
         </div>
     </div>
-
-
-
-    {{-- <div class="bg-white"></div>
-    <div id="medium-modal" tabindex="-1"
-        class="lg:w-5/12 w-1/2 hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 rounded-md py-6 drop-shadow-lg bg-white"
-        aria-hidden="true" aria-hidden="true">
-        <!-- Modal header -->
-        <div class="p-3">
-            <h3 class="text-xl font-medium text-gray-700">
-                اضافة كتاب شكر
-            </h3>
-            <hr class="border-2 bg-gray-900 rounded my-3">
-
-            <form action="{{ url('add-book') }}" method="POST">
-                @csrf
-                <input value="id" name="id" type="hidden">
-                <div class="grid gap-6 mb-6 lg:grid-cols-2">
-                    <input type="text" id="employee" name="employee">
-                    <div>
-                        <label class="block text-sm mb-2 font-medium text-gray-700">اسم الكتاب
-                        </label>
-                        <select id="name" name="name" autocomplete="off"
-                            class="hover:border-sky-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:ring">
-                            @foreach ($books as $val)
-                                <option value={{ $val->id }}>{{ $val->name }}</option>
-                            @endforeach
-                        </select>
-
-                    </div>
-
-
-                </div>
-
-                <div class="flex justify-end">
-                    <button data-modal-toggle="medium-modal" type="submit"
-                        class="bg-white text-[#047857] hover:text-white border border-[#047857] hover:bg-[#047857] focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                        اضافة
-                    </button>
-                    <button type="button" data-modal-toggle="medium-modal"
-                        class="bg-white text-[#dc2626] hover:text-white border border-[#dc2626] hover:bg-[#dc2626] focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                        الغاء
-                    </button>
-                </div>
-
-            </form>
-
-        </div>
-    </div> --}}
 @endsection
 
 

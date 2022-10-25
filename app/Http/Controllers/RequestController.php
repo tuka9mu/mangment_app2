@@ -71,16 +71,6 @@ class RequestController extends Controller
                   'sections' => $GetSections
             ]);
 
-            
-            
-
-      //       $project = Employee::query();
-      //       if (request('search')) {
-      //           $project->where('name', 'Like', '%' . request('search') . '%');
-      //       }
-      //     dd($project);
-
-
       }
 
 
@@ -96,12 +86,6 @@ class RequestController extends Controller
                   'address' => 'nullable',
                   'commdate'=>'Date',
                   'adddate'=>'Date',
-                  'state'=>'string|nullable',
-                  'locality'=>'nullable',
-                  'ally'=>'nullable',
-                  'house'=>'nullable',
-                  'phone'=>'max:11|nullable',
-                  'email'=>'nullable'
             ]);
 
             $data = Employee::create([
@@ -120,6 +104,7 @@ class RequestController extends Controller
                   'phone'=>$request->input('phone'),
                   'email'=>$request->input('email')
             ]);
+            dd($data);
 
             return redirect()->back()->with('status','تم اضافة الموظف بنجاح');
 
@@ -132,6 +117,7 @@ class RequestController extends Controller
         $GetDegrees = Degree::get();
         $GetAddresses = Address::get();
         $employee = Employee::find($id);
+        
         return view('pages.addEmplyee',[
             'employee'=>$employee,
             'sections' => $GetSection,
@@ -145,6 +131,7 @@ class RequestController extends Controller
       public function update(Request $request)
       {
         $request->validate([
+            'id'=>'required',
             'empl_id'=>'required',
             'dept_code'=>'nullable',
             'name' => 'required',
@@ -153,11 +140,11 @@ class RequestController extends Controller
             'address' => 'nullable',
             'commdate'=>'Date',
             'adddate'=>'Date',
-            'state'=>'string|nullable',
+            'state'=>'nullable',
             'locality'=>'nullable',
             'ally'=>'nullable',
             'house'=>'nullable',
-            'phone'=>'max:20|nullable',
+            'phone'=>'nullable',
             'email'=>'nullable'
 
 
@@ -178,7 +165,11 @@ class RequestController extends Controller
       $employee -> phone = $request-> phone;
       $employee -> email = $request-> email;
       $employee->save();
-      return redirect('/')->with('status','تم تعديل بيانات الموظف بنجاح');
+
+
+      return redirect()->back()->with('status','تم تعديل البيانات بنجاح');
+
+    
       }
 
 

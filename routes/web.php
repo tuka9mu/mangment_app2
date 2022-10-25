@@ -54,5 +54,6 @@ Route::get('EfadEmployee/{id}',[EmployeeEfad::class,'index'])->name('EfadEmploye
 Route::post('AddEfad',[EmployeeEfad::class,'create'])->name('AddEfad');
 Route::get('getefad',[EmployeeEfad::class,'test'])->name('efad.search');
 
-
+Route::get('/export-book/{id}',[addBookController::class,'exportSingle'])->name('book-export');
+Route::get('/export-efad/{id}',[EmployeeEfad::class,'exportSingle'])->name('efad-export');
 ?>

@@ -11,7 +11,7 @@
         <div class="flex mt-4 border-2 border-gray-300 p-4 rounded">
             <form>
                 <form method="GET" action="{{ route('efad.search') }}">
-                    <input autocomplete="off" type="search" name="employee"
+                    <input autocomplete="off" type="search" name="search"
                         class="w-96 bg-white pr-12 py-2 focus:outline-none rounded-lg text-gray-400">
                     <button class="bg-sky-500 text-white p-2 rounded mr-2" type="submit">ابحث</button>
                 </form>

@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
 use App\Models\Degree;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\EmplEfad;
 use App\Models\Section;
 use App\Models\Employee;
+use App\Exports\EfadExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,11 @@ class EmployeeEfad extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function exportSingle(Request $request){
 
+      return Excel::download(new EfadExport($request->id), 'efad.xlsx');
+
+    }
     public function test()
      {
     $GetDegrees = Degree::get();
@@ -26,9 +31,6 @@ class EmployeeEfad extends Controller
       $GetAddresses = Address::get();
       $GetEmployee = Employee::get();
       $GetList = DB::table('employees')
-                  // ->leftJoin('degrees', 'degrees.id', '=', 'employees.degree')
-                  // ->leftJoin('addresses', 'addresses.id', '=', 'employees.address')
-                  // ->select('employees.*')
                   ->orderBy('adddate')->limit(3)->get();
         $blogs = DB::select("CALL calculate()");
         return view('pages.EfadCard', [
@@ -52,7 +54,7 @@ class EmployeeEfad extends Controller
             ->leftJoin('countries', 'countries.id', '=', 'empls_efads.country')
             ->select('empls_efads.*','empls_efads.employee','empls_efads.country','employees.empl_id as _empl','countries.ctry_b_desc as _code')
             ->where('employees.id','=',$id)
-            ->orderBy('emp_date_from','desc')->cursorPaginate(3);
+            ->orderBy('emp_date_from','desc')->cursorPaginate(5);
       return view('pages.AddEfad',[
             'data'=>$GetList,
             'countries'=>$getcountry ,
@@ -64,13 +66,13 @@ class EmployeeEfad extends Controller
     {
 
       $getcountry = Country::get();
+      $search = $request->get('search');
       $getemployee = Employee::get();
       $GetList = DB::table('empls_efads')
             ->leftJoin('employees', 'employees.empl_id', '=', 'empls_efads.employee')
             ->leftJoin('countries', 'countries.id', '=', 'empls_efads.country')
-            ->select('empls_efads.*','empls_efads.employee','empls_efads.country','employees.empl_id as _empl','countries.ctry_b_desc as _code')
-            ->where('empls_efads.employee', 'like',  $request->employee . '%')
-            ->cursorPaginate(3);
+            ->select('empls_efads.*','empls_efads.employee','empls_efads.country','employees.empl_id as _empl','employees.name as _name','countries.ctry_b_desc as _code')
+            ->where('_name','like','%'.$search.'%')->get();
       return view('pages.AddEfad',[
             'data'=>$GetList,
             'countries'=>$getcountry ,
@@ -104,7 +106,7 @@ class EmployeeEfad extends Controller
 
 
 
-      return redirect()->back()->with('status','تم اضافة الكتاب بنجاح');
+      return redirect()->back()->with('status','تم اضافة الايفاد بنجاح');
     }
 
     /**

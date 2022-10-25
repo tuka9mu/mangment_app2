@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
 use App\Models\Book;
 use App\Models\EmplBook;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Exports\BookExport;
 use Illuminate\Support\Facades\DB;
 
 class addBookController extends Controller
@@ -16,6 +17,11 @@ class addBookController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function exportSingle(Request $request){
+
+      return Excel::download(new BookExport($request->id), 'book.xlsx');
+
+    }
 
 public function test()
      {
@@ -30,7 +36,7 @@ public function test()
             ->leftJoin('books', 'books.id', '=', 'empls_books.book')
             ->select('empls_books.*','empls_books.employee','empls_books.book','employees.empl_id as _empl','books.name as _name')
             ->where('employees.id','=',$id)
-            ->orderBy('date','Desc')->cursorPaginate(3);
+            ->orderBy('date','Desc')->cursorPaginate(5);
       return view('pages.addBook',[
             'data'=>$GetList,
             'books'=>$getbook,
